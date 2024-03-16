@@ -89,6 +89,7 @@
                         <img src="{{ song['artist_image'] }}" alt="Artist Image" width="10em" height="10em">
                         <p>Artist: {{ song['artist_name'] }}</p>
                         <p>Album: {{ song['album_name'] }}</p>
+                        <iframe src="{{ embed_url }}" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                     </div>
                 {% endfor %}
             </div>
