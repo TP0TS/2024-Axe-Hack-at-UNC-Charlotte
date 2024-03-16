@@ -1,5 +1,3 @@
-
-
 h1 {
     text-align: center;
     color: #EF6848;
@@ -7,17 +5,9 @@ h1 {
     font-size: 50px;
     margin-top: 0px;
     margin-bottom: 5px;
-    
 }
 
-h2 {
-    color: #EF6848;
-    font-family: 'Poppins';
-    font-size: 20px;
-    margin-top: 0;
-    margin-left: 20px;
-    margin-right: 20px;
-}
+
 
 p {
     color: white;
@@ -29,16 +19,14 @@ p {
 
 body {
     background-color: #020617;
-    
+    margin: 0;
+    padding: 0;
 }
 
 #imageDiv {
-                         
-    background-repeat:   no-repeat;
+    background-repeat: no-repeat;
     width: 100%;
     height: 100%;
-    
-    
 }
 
 #mainImage {
@@ -48,14 +36,12 @@ body {
 
 .centered {
     position: absolute;
-    top: 59%;
-    left: 19%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    margin-left: 10%;
-    margin-right: 10%;
-  }
+}
 
-  #exploreBtn {
+#exploreBtn {
     background-color: #EF6848;
     color: white;
     border-radius: 3em;
@@ -67,41 +53,46 @@ body {
     margin-top: 3em;
     font-family: 'Poppins';
     font-size: 1.75em;
-  }
+}
 
-
-
-
-
-
-
-/* test */
-
-body {margin:0;}
-
+/* Navbar */
 .navbar {
-    overflow: hidden;
-    background-color: #020617;
-    position: sticky;
+    position: fixed;
     top: 0;
     width: 100%;
-    margin: 0px;
+    background-color: #020617;
+    z-index: 1000; /* Ensure the navbar appears over everything */
+  }
+  
+  .navbar h1 {
+    margin: 0;
+    padding: 10px;
+    color: #EF6848;
+    text-align: center;
   }
   
   .navbar a {
     float: center;
     display: block;
-    color: #f2f2f2;
+    color: #EF6848;
     text-align: center;
     text-decoration: none;
   }
-
-.navbar a:hover {
   
+  .navbar a:hover {
+    
+  }
+
+#dropDown {
+    
+        display: none;
+        position: absolute;
+        background-color: #020617;
+        min-width: 160px;
+        z-index: 2000; /* Ensure the dropdown appears over the navbar */
+        text-align: center;
+        left: 50%;
+        transform: translateX(-50%);
+
 }
 
-.main {
-  padding: 16px;
-  margin-top: 30px;
-  height: 1500px; /* Used in this example to enable scrolling */
-}

@@ -80,21 +80,21 @@ body {
 body {margin:0;}
 
 .navbar {
-  overflow: hidden;
-  background-color: #020617;
-  position: sticky;
-  top: 0;
-  width: 100%;
-  margin: 0px;
-}
-
-.navbar a {
-  float: center;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  text-decoration: none;
-}
+    overflow: hidden;
+    background-color: #020617;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    margin: 0px;
+  }
+  
+  .navbar a {
+    float: center;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    text-decoration: none;
+  }
 
 .navbar a:hover {
   

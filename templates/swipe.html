@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tinder Swipe</title>
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/swipeCSS.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <title>Tinder Swipe</title>
+    <style>
     body {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
         margin: 0;
+        color:black;
     }
 
     .card {
-        width: 40em;
-        height: 60em;
+        width: 30em;
+        height: 45em;
+        margin-top: 10%;
         background-color: #f0f0f0;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -37,8 +43,9 @@
     }
 
     .card img {
-        width: 10%;
-        height: 10%;
+        width: 20%;
+        height: 20%;
+        float:center;
     }
 
     .buttons {
@@ -62,41 +69,60 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         cursor: pointer;
     }
+
 </style>
 </head>
 <body>
-<div class="card card-center" id="card">
-    <h1>Recommended Songs</h1>
-    <div>
-        {% for song in recommended_song %}
-            <div>
-                <img src="{{ song['song_image'] }}" alt="Song Image" width="10em" height="10em">
-                <p>{{ song['song_name'] }}</p>
-                <img src="{{ song['artist_image'] }}" alt="Artist Image" width="10em" height="10em">
-                <p>Artist: {{ song['artist_name'] }}</p>
-                <p>Album: {{ song['album_name'] }}</p>
-            </div>
-        {% endfor %}
-</div>
-<div class="buttons">
-    <div class="button" id="dislike">❌</div>
-    <div class="button" id="like">❤️</div>
-</div>
 
+    <div class="navbar">
+        <a href="/"><h1>Tunify</h1></a>
+    </div>
+
+    <div class="container">
+        <div class="card card-center" id="card">
+            <h1>Recommended Songs</h1>
+            <div>
+                {% for song in recommended_song %}
+                    <div>
+                        <img src="{{ song['song_image'] }}" alt="Song Image" width="10em" height="10em">
+                        <p>{{ song['song_name'] }}</p>
+                        <img src="{{ song['artist_image'] }}" alt="Artist Image" width="10em" height="10em">
+                        <p>Artist: {{ song['artist_name'] }}</p>
+                        <p>Album: {{ song['album_name'] }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="buttons">
+            <div class="button" id="dislike">❌</div>
+            <div class="button" id="like">❤️</div>
+        </div>
+    </div>
 <script>
     let card = document.getElementById('card');
 
     function updateRecommendedSongs() {
-        fetch('/recommended_songs')
-            .then(response => response.text())
-            .then(html => {
-                card.innerHTML = html;
-                addSwipeListeners();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
+    fetch('/recommended_songs')
+        .then(response => response.text())
+        .then(html => {
+            // Create a temporary div element to hold the HTML
+            let tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+
+            // Get only the content inside the card
+            let cardContent = tempDiv.querySelector('.card').innerHTML;
+
+            // Update the card content
+            card.innerHTML = cardContent;
+
+            // Add swipe listeners to the updated content
+            addSwipeListeners();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
 
     function resetCardPosition() {
         card.classList.remove('swiped-left');
