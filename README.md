@@ -19,7 +19,4 @@ Say goodbye to waiting for new songs and hello to instant music discovery – do
 2. Install requirements.txt: `pip install -r requirements.txt`
 3. Start the application: `python app.py`
 
-## Contributing
-
-Contributions are welcome! Please see our [contribution guidelines](CONTRIBUTING.md) for more information.
 
