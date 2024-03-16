@@ -67,8 +67,12 @@
 </head>
 <body>
 <div class="card card-center" id="card">
-    <!-- Card content here -->
-    <!-- You can put images, text, etc. -->
+    <h1>Recommended Song</h1>
+    <img src="{{ song_image }}" alt="{{ song_name }}">
+    <p>{{ song_name }} by {{ artist_name }}</p>
+    <p>Album: {{ album_name }}</p>
+    <p>Embed:</p>
+    {{ embed_code | safe }}
 </div>
 <div class="buttons">
     <div class="button" id="dislike">❌</div>
