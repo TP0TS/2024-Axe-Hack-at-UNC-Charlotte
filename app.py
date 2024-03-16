@@ -75,7 +75,7 @@ class Swipify:
                 'song_uri': song_uri
             })
 
-        return render_template('recommended_songs.html', recommended_songs=recommended_songs)
+        return render_template('swipe.html', recommended_songs=recommended_songs)
 
     def add_song_to_playlist(self, playlist_id, song_uri):
         access_token = session.get('access_token')
