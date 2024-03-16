@@ -23,6 +23,3 @@ Say goodbye to waiting for new songs and hello to instant music discovery – do
 
 Contributions are welcome! Please see our [contribution guidelines](CONTRIBUTING.md) for more information.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
