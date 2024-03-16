@@ -1,13 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotipy Playlist Creator</title>
-</head>
-<body>
-    <h1>Welcome to Spotipy Playlist Creator</h1>
-    <a href="{{ url_for('login') }}">Login with Spotify</a>
-    <a href="{{ url_for('recommended_songs') }}">Recommended Songs</a>
-</body>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Song Picker</title>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+  </head>
+  <body>
+    <main>
+        <div class="navbar">
+            <a href="#home"><h1>Swipify</h1></a>
+        </div>
+        
+        <div id="imageDiv">
+            <div class="centered">
+                
+                <h1 style="text-align: center; color: white; font-family: 'Poppins'; font-size: 4em; margin-top: 0px;margin-bottom: 5px;">New Music</h1>
+                <h1 style="text-align: center; color: #EF6848; font-family: 'Poppins'; font-size: 4em; margin-top: 0px;margin-bottom: 5px;">Made Easy</h1>
+                <br/>
+                <br/>
+                <h2 style="color: white; font-size: 1.75em;">The only playlist app you'll ever need</h2>
+                <a href="/login"><button class="centered" id="exploreBtn" type="button">Explore</button></a>
+            
+            
+            </div>
+            <img id="mainImage" src="{{ url_for('static', filename='imageDiv.svg') }}">
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <h2>Sample Text</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean venenatis neque fringilla luctus egestas. Donec quis lacinia ipsum. Maecenas quis nulla eget arcu eleifend imperdiet vitae vel diam. Phasellus quis nibh nisi. Integer tincidunt tempus risus, sed vulputate diam tempus consequat. Suspendisse potenti. Cras sagittis fringilla massa ac scelerisque. Vestibulum nulla ipsum, fringilla quis pulvinar nec, efficitur et nunc. Sed tempus libero sit amet leo auctor sollicitudin. Duis auctor porta feugiat.</p>
+
+        <!-- Remaining HTML content -->
+
+    </main>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+  </body>
 </html>

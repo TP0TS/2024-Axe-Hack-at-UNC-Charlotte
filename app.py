@@ -57,25 +57,25 @@ class Swipify:
         # Get recommended tracks based on the seed tracks
         recommended_tracks = sp.recommendations(seed_tracks=seed_tracks, limit=1)
 
-        # Extract relevant information for each recommended track
-        recommended_songs = []
-        for track in recommended_tracks['tracks']:
-            song_name = track['name']
-            artist_name = track['artists'][0]['name']
-            album_name = track['album']['name']
-            song_image = track['album']['images'][0]['url']
-            artist_image = sp.artist(track['artists'][0]['id'])['images'][0]['url']
-            song_uri = track['uri']
-            recommended_songs.append({
-                'song_name': song_name,
-                'artist_name': artist_name,
-                'album_name': album_name,
-                'song_image': song_image,
-                'artist_image': artist_image,
-                'song_uri': song_uri
-            })
+        # Extract relevant information for the recommended track
+        recommended_song = recommended_tracks['tracks'][0]
+        song_name = recommended_song['name']
+        artist_name = recommended_song['artists'][0]['name']
+        album_name = recommended_song['album']['name']
+        song_image = recommended_song['album']['images'][0]['url']
+        artist_image = sp.artist(recommended_song['artists'][0]['id'])['images'][0]['url']
+        song_uri = recommended_song['uri']
 
-        return render_template('recommended_songs.html', recommended_songs=recommended_songs)
+        # Get the Spotify embed code for the recommended song with autoplay
+        embed_code = f'<iframe src="https://open.spotify.com/embed/track/{song_uri.split(":")[-1]}" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media" autoplay="1"></iframe>'
+
+        return render_template('recommended_song_embed.html', 
+                            song_name=song_name, 
+                            artist_name=artist_name, 
+                            album_name=album_name, 
+                            song_image=song_image, 
+                            artist_image=artist_image, 
+                            embed_code=embed_code)
 
     def add_song_to_playlist(self, playlist_id, song_uri):
         access_token = session.get('access_token')
