@@ -16,9 +16,8 @@ Say goodbye to waiting for new songs and hello to instant music discovery – do
 ## Installation
 
 1. Clone the repository: `git clone github.com/TP0TS/2024-Axe-Hack-at-UNC-Charlotte/tree/master`
-2. Install requirements.txt: `pip instal -r requirements.txt`
-3. Install dependencies: `pip install flask`
-4. Start the application: `python app.py`
+2. Install requirements.txt: `pip install -r requirements.txt`
+3. Start the application: `python app.py`
 
 ## Contributing
 
