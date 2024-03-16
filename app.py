@@ -44,12 +44,7 @@ def profile():
         recently_played = spotify.get_users_recently_played(auth_header)
         
         if valid_token(recently_played):
-            return render_template("profile.html",
-                               user=profile_data,
-                               playlists=playlist_data["items"],
-                               recently_played=recently_played["items"])
-
-    return render_template('profile.html')
+            return render_template("index.html", user=profile_data)
 
 if __name__ == "__main__":
     app.run(debug=True, port=spotify.PORT)
