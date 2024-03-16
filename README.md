@@ -11,7 +11,6 @@ Say goodbye to waiting for new songs and hello to instant music discovery – Us
 - Connect your Spotify account to receive personalized song recommendations.
 - Swipe left to skip or right to add songs directly to your playlists.
 - Explore new artists, rediscover old favorites, and dive into trending tracks.
-- Advanced filtering options allow you to refine recommendations by genre, length, and release date.
 
 ## Installation
 
