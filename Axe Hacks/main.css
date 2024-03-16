@@ -1,0 +1,107 @@
+
+
+h1 {
+    text-align: center;
+    color: #EF6848;
+    font-family: 'Poppins';
+    font-size: 50px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    
+}
+
+h2 {
+    color: #EF6848;
+    font-family: 'Poppins';
+    font-size: 20px;
+    margin-top: 0;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+p {
+    color: white;
+    font-family: 'Poppins';
+    font-size: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+body {
+    background-color: #020617;
+    
+}
+
+#imageDiv {
+                         
+    background-repeat:   no-repeat;
+    width: 100%;
+    height: 100%;
+    
+    
+}
+
+#mainImage {
+    width: 100%;
+    height: 100%;
+}
+
+.centered {
+    position: absolute;
+    top: 59%;
+    left: 19%;
+    transform: translate(-50%, -50%);
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  #exploreBtn {
+    background-color: #EF6848;
+    color: white;
+    border-radius: 3em;
+    padding: .75em 2em;
+    border: none;
+    position: relative;
+    top: 20px;
+    margin-left: 30%;
+    margin-top: 3em;
+    font-family: 'Poppins';
+    font-size: 1.75em;
+  }
+
+
+
+
+
+
+
+/* test */
+
+body {margin:0;}
+
+.navbar {
+    overflow: hidden;
+    background-color: #020617;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    margin: 0px;
+  }
+  
+  .navbar a {
+    float: center;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    text-decoration: none;
+  }
+
+.navbar a:hover {
+  
+}
+
+.main {
+  padding: 16px;
+  margin-top: 30px;
+  height: 1500px; /* Used in this example to enable scrolling */
+}
