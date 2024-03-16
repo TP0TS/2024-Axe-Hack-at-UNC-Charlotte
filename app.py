@@ -1,50 +1,53 @@
-from flask import Flask, request, redirect, g, render_template, session
-from spotify_requests import spotify
+from flask import Flask, render_template, redirect, url_for, request, session
+from spotipy import oauth2
+import spotipy
+import os
 
 app = Flask(__name__)
-app.secret_key = 'some key for session'
+app.secret_key = "random"
+# Spotify API credentials
+SPOTIPY_CLIENT_ID = 'a8583822cef2478ca27448f3882066c3'
+SPOTIPY_CLIENT_SECRET = '7365a5b6693a499db6bf445cd34ca2a3'
+SPOTIPY_REDIRECT_URI = 'http://localhost:5000/callback'
 
-# ----------------------- AUTH API PROCEDURE -------------------------
+# Spotipy authentication
+sp_oauth = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI, scope='playlist-modify-private')
 
-@app.route("/auth")
-def auth():
-    return redirect(spotify.AUTH_URL)
-
-
-@app.route("/callback/")
-def callback():
-
-    auth_token = request.args['code']
-    auth_header = spotify.authorize(auth_token)
-    session['auth_header'] = auth_header
-
-    return profile()
-
-def valid_token(resp):
-    return resp is not None and not 'error' in resp
-
-# -------------------------- API REQUESTS ----------------------------
-
-
-@app.route("/")
+@app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/profile')
-def profile():
-    if 'auth_header' in session:
-        auth_header = session['auth_header']
-        # get profile data
-        profile_data = spotify.get_users_profile(auth_header)
+@app.route('/login')
+def login():
+    auth_url = sp_oauth.get_authorize_url()
+    return redirect(auth_url)
 
-        # get user playlist data
-        playlist_data = spotify.get_users_playlists(auth_header)
+@app.route('/callback')
+def callback():
+    code = request.args.get('code')
+    token_info = sp_oauth.get_access_token(code)
+    access_token = token_info['access_token']
+    
+    # Store the access token and user ID in the session
+    session['access_token'] = access_token
+    sp = spotipy.Spotify(auth=access_token)
+    current_user = sp.current_user()
+    session['user_id'] = current_user['id']
+    
+    return redirect(url_for('create_playlist'))
 
-        # get user recently played tracks
-        recently_played = spotify.get_users_recently_played(auth_header)
-        
-        if valid_token(recently_played):
-            return render_template("index.html", user=profile_data)
+@app.route('/create_playlist', methods=['GET', 'POST'])
+def create_playlist():
+    access_token = session.get('access_token')
+    user_id = session.get('user_id')
+    sp = spotipy.Spotify(auth=access_token)
+    
+    if request.method == 'POST':
+        playlist_name = request.form['playlist_name']
+        sp.user_playlist_create(user=user_id, name=playlist_name, public=False)
+        return "Playlist created successfully!"
+    
+    return render_template('create_playlist.html')
 
-if __name__ == "__main__":
-    app.run(debug=True, port=spotify.PORT)
+if __name__ == '__main__':
+    app.run(debug=True)
