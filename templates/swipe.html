@@ -69,7 +69,7 @@
 <div class="card card-center" id="card">
     <h1>Recommended Songs</h1>
     <div>
-        {% for song in recommended_songs %}
+        {% for song in recommended_song %}
             <div>
                 <img src="{{ song['song_image'] }}" alt="Song Image" width="100">
                 <p>{{ song['song_name'] }}</p>
@@ -86,52 +86,62 @@
 
 <script>
     let card = document.getElementById('card');
-    let dislikeBtn = document.getElementById('dislike');
-    let likeBtn = document.getElementById('like');
 
-    // Swipe left function
-    dislikeBtn.addEventListener('click', () => {
-        if (!card.classList.contains('swiped-left') && !card.classList.contains('swiped-right')) {
-            card.classList.add('swiped-left');
-            // Execute Flask function for left swipe
-            fetch('/swipe_left', {
-                method: 'POST'
-                // You can include additional data if needed
-            }).then(response => {
-                // Handle response if needed
-            }).catch(error => {
+    function updateRecommendedSongs() {
+        fetch('/recommended_songs')
+            .then(response => response.text())
+            .then(html => {
+                card.innerHTML = html;
+                addSwipeListeners();
+            })
+            .catch(error => {
                 console.error('Error:', error);
             });
+    }
 
-            // Reset card after animation
-            setTimeout(() => {
-                card.classList.remove('swiped-left');
-                card.classList.add('card-center');
-            }, 300);
-        }
-    });
+    function resetCardPosition() {
+        card.classList.remove('swiped-left');
+        card.classList.remove('swiped-right');
+        card.classList.add('card-center');
+    }
 
-    // Swipe right function
-    likeBtn.addEventListener('click', () => {
-        if (!card.classList.contains('swiped-left') && !card.classList.contains('swiped-right')) {
-            card.classList.add('swiped-right');
-            // Execute Flask function for right swipe
-            fetch('/swipe_right', {
-                method: 'POST'
-                // You can include additional data if needed
-            }).then(response => {
-                // Handle response if needed
-            }).catch(error => {
-                console.error('Error:', error);
-            });
+    function addSwipeListeners() {
+        let dislikeBtn = document.getElementById('dislike');
+        let likeBtn = document.getElementById('like');
 
-            // Reset card after animation
-            setTimeout(() => {
-                card.classList.remove('swiped-right');
-                card.classList.add('card-center');
-            }, 300);
-        }
-    });
+        dislikeBtn.addEventListener('click', () => {
+            if (!card.classList.contains('swiped-left') && !card.classList.contains('swiped-right')) {
+                card.classList.add('swiped-left');
+                fetch('/swipe_left', {
+                    method: 'POST'
+                }).then(() => {
+                    resetCardPosition();
+                    updateRecommendedSongs();
+                }).catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        });
+
+        likeBtn.addEventListener('click', () => {
+            if (!card.classList.contains('swiped-left') && !card.classList.contains('swiped-right')) {
+                card.classList.add('swiped-right');
+                fetch('/swipe_right', {
+                    method: 'POST'
+                }).then(() => {
+                    resetCardPosition();
+                    updateRecommendedSongs();
+                }).catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        });
+    }
+
+    // Call addSwipeListeners initially
+    addSwipeListeners();
 </script>
+
+
 </body>
 </html>

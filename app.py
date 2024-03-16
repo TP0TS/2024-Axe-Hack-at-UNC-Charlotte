@@ -11,7 +11,7 @@ class Swipify:
             'a8583822cef2478ca27448f3882066c3', 
             '7365a5b6693a499db6bf445cd34ca2a3', 
             'http://localhost:5000/callback', 
-            scope='playlist-modify-private user-top-read'
+            scope='playlist-modify-public playlist-modify-private user-top-read'
         )
 
     def index(self):
@@ -58,7 +58,7 @@ class Swipify:
         recommended_tracks = sp.recommendations(seed_tracks=seed_tracks, limit=1)
 
         # Extract relevant information for each recommended track
-        recommended_songs = []
+        self.recommended_song = []
         for track in recommended_tracks['tracks']:
             song_name = track['name']
             artist_name = track['artists'][0]['name']
@@ -66,7 +66,8 @@ class Swipify:
             song_image = track['album']['images'][0]['url']
             artist_image = sp.artist(track['artists'][0]['id'])['images'][0]['url']
             song_uri = track['uri']
-            recommended_songs.append({
+            self.recommended_song=[]
+            self.recommended_song.append({
                 'song_name': song_name,
                 'artist_name': artist_name,
                 'album_name': album_name,
@@ -75,12 +76,39 @@ class Swipify:
                 'song_uri': song_uri
             })
 
-        return render_template('swipe.html', recommended_songs=recommended_songs)
+        return render_template('swipe.html', recommended_song=self.recommended_song)
 
-    def add_song_to_playlist(self, playlist_id, song_uri):
+    def add_song_to_playlist(self, song_uri):
         access_token = session.get('access_token')
         sp = spotipy.Spotify(auth=access_token)
-        sp.playlist_add_items(playlist_id, [song_uri])
+        current_user = sp.me()['id']
+        
+        # Get user's playlists
+        playlists = []
+        response = sp.current_user_playlists(limit=50)  # Maximum limit per request
+        playlists.extend(response['items'])
+
+        while response['next']:
+            response = sp.next(response)
+            playlists.extend(response['items'])
+
+        # Select the first playlist as the target
+        if playlists:
+            playlist_id = playlists[0]['id']
+            sp.user_playlist_add_tracks(user=current_user, playlist_id=playlist_id, tracks=[song_uri])
+            return "Song added to playlist successfully!"
+        else:
+            return "User has no playlists."
+
+    def swipe_left(self):
+        # Reset card position to center and update recommended songs
+        return redirect(url_for('recommended_songs'))
+
+    def swipe_right(self):
+        # Add song to playlist, then reset card position to center and update recommended songs
+        self.add_song_to_playlist(self.recommended_song[0]["song_uri"])
+        return redirect(url_for('recommended_songs'))
+
 
     def run(self):
         self.app.add_url_rule('/', 'index', self.index)
@@ -89,6 +117,8 @@ class Swipify:
         self.app.add_url_rule('/create_playlist', 'create_playlist', self.create_playlist, methods=['GET', 'POST'])
         self.app.add_url_rule('/add_song','add_song_to_playlist', self.add_song_to_playlist, methods=['GET', 'POST'])
         self.app.add_url_rule('/recommended_songs', 'recommended_songs', self.recommended_songs)
+        self.app.add_url_rule('/swipe_right', 'swipe_right', self.swipe_right, methods=['GET', 'POST'])
+        self.app.add_url_rule('/swipe_left', 'swipe_left', self.swipe_left, methods=["GET", "POST"])
         self.app.run(debug=True)
 
 if __name__ == '__main__':
