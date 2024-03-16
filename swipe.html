@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+<link rel="stylesheet" href="./style.css">
+<link rel="stylesheet" href="swipeCSS.css">
+<link rel="icon" href="./favicon.ico" type="image/x-icon">
+<title>Tinder Swipe</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .card {
+        width: 300px;
+        height: 400px;
+        margin-top: 10%;
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        position: relative;
+        transition: transform 0.3s ease;
+    }
+
+    .card.swiped-left {
+        transform: translateX(-500px) rotate(-30deg);
+    }
+
+    .card.swiped-right {
+        transform: translateX(500px) rotate(30deg);
+    }
+
+    .card-center {
+        transform: translateX(0) rotate(0);
+    }
+
+    .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+    }
+
+    .button {
+        width: 50px;
+        height: 50px;
+        background-color: white;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+
+</style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="#home"><h1>Swipify</h1></a>
+        
+        style="transform: translateX(300%); position: absolute"
+            
+        
+        
+        <div style="transform: translateX(300%); position: absolute">
+        <label>Choose a playlist:</label>
+        <select name="cars" id="cars">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="mercedes">Mercedes</option>
+            <option value="audi">Audi</option>
+
+        </select>
+        </div>
+        
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="card card-center" id="card">
+    <h1>Recommended Songs</h1>
+    <div>
+        {% for song in recommended_songs %}
+            <div>
+                <img src="{{ song['song_image'] }}" alt="Song Image" width="100">
+                <p>{{ song['song_name'] }}</p>
+                <img src="{{ song['artist_image'] }}" alt="Artist Image" width="100">
+                <p>Artist: {{ song['artist_name'] }}</p>
+                <p>Album: {{ song['album_name'] }}</p>
+            </div>
+        {% endfor %}
+</div>
+<div class="buttons">
+    <div class="button" id="dislike">❌</div>
+    <div class="button" id="like">❤️</div>
+</div>
+
+<script>
+    let card = document.getElementById('card');
+    let dislikeBtn = document.getElementById('dislike');
+    let likeBtn = document.getElementById('like');
+
+    // Swipe left function
+    dislikeBtn.addEventListener('click', () => {
+        if (!card.classList.contains('swiped-left') && !card.classList.contains('swiped-right')) {
+            card.classList.add('swiped-left');
+            // Execute Flask function for left swipe
+            fetch('/swipe_left', {
+                method: 'POST'
+                // You can include additional data if needed
+            }).then(response => {
+                // Handle response if needed
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+
+            // Reset card after animation
+            setTimeout(() => {
+                card.classList.remove('swiped-left');
+                card.classList.add('card-center');
+            }, 300);
+        }
+    });
+
+    // Swipe right function
+    likeBtn.addEventListener('click', () => {
+        if (!card.classList.contains('swiped-left') && !card.classList.contains('swiped-right')) {
+            card.classList.add('swiped-right');
+            // Execute Flask function for right swipe
+            fetch('/swipe_right', {
+                method: 'POST'
+                // You can include additional data if needed
+            }).then(response => {
+                // Handle response if needed
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+
+            // Reset card after animation
+            setTimeout(() => {
+                card.classList.remove('swiped-right');
+                card.classList.add('card-center');
+            }, 300);
+        }
+    });
+</script>
+</body>
+</html>

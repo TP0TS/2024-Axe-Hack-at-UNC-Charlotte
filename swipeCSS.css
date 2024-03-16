@@ -1,0 +1,98 @@
+h1 {
+    text-align: center;
+    color: #EF6848;
+    font-family: 'Poppins';
+    font-size: 50px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+
+
+p {
+    color: white;
+    font-family: 'Poppins';
+    font-size: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+body {
+    background-color: #020617;
+    margin: 0;
+    padding: 0;
+}
+
+#imageDiv {
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+}
+
+#mainImage {
+    width: 100%;
+    height: 100%;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#exploreBtn {
+    background-color: #EF6848;
+    color: white;
+    border-radius: 3em;
+    padding: .75em 2em;
+    border: none;
+    position: relative;
+    top: 20px;
+    margin-left: 30%;
+    margin-top: 3em;
+    font-family: 'Poppins';
+    font-size: 1.75em;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #020617;
+  z-index: 1000; /* Ensure the navbar appears over everything */
+}
+
+.navbar h1 {
+  margin: 0;
+  padding: 10px;
+  color: #EF6848;
+  text-align: center;
+}
+
+.navbar a {
+  float: center;
+  display: block;
+  color: #EF6848;
+  text-align: center;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  
+}
+
+#dropDown {
+    
+        display: none;
+        position: absolute;
+        background-color: #020617;
+        min-width: 160px;
+        z-index: 2000; /* Ensure the dropdown appears over the navbar */
+        text-align: center;
+        left: 50%;
+        transform: translateX(-50%);
+
+}
+
