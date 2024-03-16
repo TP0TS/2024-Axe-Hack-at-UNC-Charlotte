@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommended Songs</title>
+</head>
+<body>
+    <h1>Recommended Songs</h1>
+    <div>
+        {% for song in recommended_songs %}
+            <div>
+                <img src="{{ song['song_image'] }}" alt="Song Image" width="100">
+                <p>{{ song['song_name'] }}</p>
+                <img src="{{ song['artist_image'] }}" alt="Artist Image" width="100">
+                <p>Artist: {{ song['artist_name'] }}</p>
+                <p>Album: {{ song['album_name'] }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -11,7 +11,7 @@ SPOTIPY_CLIENT_SECRET = '7365a5b6693a499db6bf445cd34ca2a3'
 SPOTIPY_REDIRECT_URI = 'http://localhost:5000/callback'
 
 # Spotipy authentication
-sp_oauth = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI, scope='playlist-modify-private')
+sp_oauth = oauth2.SpotifyOAuth(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI, scope='playlist-modify-private user-top-read')
 
 @app.route('/')
 def index():
@@ -48,6 +48,37 @@ def create_playlist():
         return "Playlist created successfully!"
     
     return render_template('create_playlist.html')
+
+
+@app.route('/recommended_songs')
+def recommended_songs():
+    access_token = session.get('access_token')
+    sp = spotipy.Spotify(auth=access_token)
+
+    # Fetch user's top tracks to use as seed tracks for recommendations
+    top_tracks = sp.current_user_top_tracks(limit=5, time_range='short_term')
+    seed_tracks = [track['id'] for track in top_tracks['items']]
+
+    # Get recommended tracks based on the seed tracks
+    recommended_tracks = sp.recommendations(seed_tracks=seed_tracks, limit=10)
+
+    # Extract relevant information for each recommended track
+    recommended_songs = []
+    for track in recommended_tracks['tracks']:
+        song_name = track['name']
+        artist_name = track['artists'][0]['name']
+        album_name = track['album']['name']
+        song_image = track['album']['images'][0]['url']
+        artist_image = sp.artist(track['artists'][0]['id'])['images'][0]['url']
+        recommended_songs.append({
+            'song_name': song_name,
+            'artist_name': artist_name,
+            'album_name': album_name,
+            'song_image': song_image,
+            'artist_image': artist_image
+        })
+
+    return render_template('recommended_songs.html', recommended_songs=recommended_songs)
 
 if __name__ == '__main__':
     app.run(debug=True)
