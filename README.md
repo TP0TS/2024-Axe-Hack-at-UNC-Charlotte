@@ -1,10 +1,10 @@
-# Tuneify
+# Tunify
 
-Tuneify is the ultimate music discovery app that revolutionizes how you find and enjoy new songs. 
-With Tuneify, you can connect your Spotify account and instantly receive personalized song recommendations based on your unique music taste. 
+Tunify is the ultimate music discovery app that revolutionizes how you find and enjoy new songs. 
+With Tunify, you can connect your Spotify account and instantly receive personalized song recommendations based on your unique music taste. 
 Swipe left to skip or right to add songs directly to your playlists, effortlessly creating the perfect soundtrack for every moment. 
 Explore new artists, rediscover old favorites, and dive into trending tracks.
-Say goodbye to waiting for new songs and hello to instant music discovery – Use Tuneify now and start your personalized journey through the world of music!
+Say goodbye to waiting for new songs and hello to instant music discovery – Use Tunify now and start your personalized journey through the world of music!
 
 ## Features
 
