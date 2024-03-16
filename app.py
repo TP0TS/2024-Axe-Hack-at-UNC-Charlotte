@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session
 from spotipy import oauth2, Spotify
 import spotipy
 import os
-from random import randint
+
 class Swipify:
     def __init__(self):
         self.app = Flask(__name__)
@@ -32,15 +32,7 @@ class Swipify:
         current_user = sp.current_user()
         session['user_id'] = current_user['id']
 
-        # Check if the playlist "tunify" already exists, if not, create it
-        playlists = sp.current_user_playlists(limit=50)['items']
-        playlist_names = [playlist['name'] for playlist in playlists]
-        random = randint(5)
-        if "tunify" not in playlist_names:
-            sp.user_playlist_create(user=current_user['id'], name="tunify_session_"+str(random), public=False)
-
-        return redirect(url_for('recommended_songs'))
-
+        return redirect(url_for('create_playlist'))
 
     def create_playlist(self):
         access_token = session.get('access_token')
@@ -52,7 +44,7 @@ class Swipify:
             sp.user_playlist_create(user=user_id, name=playlist_name, public=False)
             return "Playlist created successfully!"
 
-        return render_template('create_playlist.html')
+        return render_template('recommended_song_embed.html')
 
     def recommended_songs(self):
         access_token = session.get('access_token')
@@ -93,20 +85,21 @@ class Swipify:
         current_user = sp.me()['id']
         
         # Get user's playlists
-        playlists = sp.current_user_playlists(limit=50)['items']
-        tunify_playlist_id = None
+        playlists = []
+        response = sp.current_user_playlists(limit=50)  # Maximum limit per request
+        playlists.extend(response['items'])
 
-        # Find the ID of the "tunify" playlist
-        for playlist in playlists:
-            if playlist['name'] == "tunify":
-                tunify_playlist_id = playlist['id']
-                break
+        while response['next']:
+            response = sp.next(response)
+            playlists.extend(response['items'])
 
-        if tunify_playlist_id:
-            sp.user_playlist_add_tracks(user=current_user, playlist_id=tunify_playlist_id, tracks=[song_uri])
-            return "Song added to 'tunify' playlist successfully!"
+        # Select the first playlist as the target
+        if playlists:
+            playlist_id = playlists[0]['id']
+            sp.user_playlist_add_tracks(user=current_user, playlist_id=playlist_id, tracks=[song_uri])
+            return "Song added to playlist successfully!"
         else:
-            return "No 'tunify' playlist found."
+            return "User has no playlists."
 
     def swipe_left(self):
         # Reset card position to center and update recommended songs
